@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indonesian Text-to-Speech</title>
+</head>
+
+<body>
+    <h1>Text-to-Speech in Indonesian</h1>
+    <textarea id="text" rows="4" cols="50" placeholder="Enter text here..."></textarea><br>
+    <button onclick="speak()">Speak</button>
+
+    <script>
+        function speak() {
+            // Get the text from the textarea
+            const text = document.getElementById('text').value;
+
+            // Create a new speech synthesis utterance
+            const utterance = new SpeechSynthesisUtterance(text);
+
+            // Set the language to Indonesian
+            utterance.lang = 'id-ID';
+
+            // Set other optional properties
+            utterance.pitch = 1; // Pitch level (0 to 2)
+            utterance.rate = 1; // Speed rate (0.1 to 10)
+            utterance.volume = 1; // Volume (0 to 1)
+
+            // Check if the Indonesian voice is available
+            const voices = window.speechSynthesis.getVoices();
+            const indonesianVoice = voices.find(voice => voice.lang === 'id-ID');
+
+            // If available, set the Indonesian voice
+            if (indonesianVoice) {
+                utterance.voice = indonesianVoice;
+            }
+
+            // Speak the text
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Load available voices and handle changes
+        window.speechSynthesis.onvoiceschanged = function() {
+            const voices = window.speechSynthesis.getVoices();
+            console.log('Available Voices:', voices); // You can check available voices
+        };
+    </script>
+</body>
+
+</html>
