@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTS Voice Checker</title>
+</head>
+
+<body>
+    <h1>Available Text-to-Speech Voices</h1>
+    <ul id="voiceList"></ul>
+
+    <script>
+        // Function to list available voices
+        function listVoices() {
+            const synth = window.speechSynthesis;
+
+            // Wait until voices are loaded
+            const voices = synth.getVoices();
+
+            if (voices.length === 0) {
+                // Add an event listener to ensure voices are fully loaded
+                synth.onvoiceschanged = function() {
+                    displayVoices(synth.getVoices());
+                };
+            } else {
+                // Display voices immediately if already loaded
+                displayVoices(voices);
+            }
+        }
+
+        // Function to display the available voices
+        function displayVoices(voices) {
+            const voiceList = document.getElementById('voiceList');
+
+            voices.forEach((voice, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Voice ${index + 1}: ${voice.name} (${voice.lang}) ${voice.default ? '(default)' : ''}`;
+                voiceList.appendChild(listItem);
+            });
+        }
+
+        // Call the function to list voices when the page loads
+        document.addEventListener('DOMContentLoaded', listVoices);
+    </script>
+</body>
+
+</html>
